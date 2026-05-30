@@ -14,7 +14,7 @@ export default function Navbar() {
   // Set initial theme and handle hydration
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem("captionlab_theme") as "light" | "dark" | null;
+    const savedTheme = localStorage.getItem("captionhall_theme") as "light" | "dark" | null;
     const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     const activeTheme = savedTheme || systemTheme;
     
@@ -29,7 +29,7 @@ export default function Navbar() {
   const toggleTheme = () => {
     const nextTheme = theme === "light" ? "dark" : "light";
     setTheme(nextTheme);
-    localStorage.setItem("captionlab_theme", nextTheme);
+    localStorage.setItem("captionhall_theme", nextTheme);
     if (nextTheme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
@@ -53,7 +53,7 @@ export default function Navbar() {
                 <Sparkles className="h-5 w-5" />
               </div>
               <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-slate-900 via-violet-950 to-slate-900 dark:from-slate-50 dark:via-violet-400 dark:to-slate-50 bg-clip-text text-transparent">
-                CaptionLab
+                Captionhall
               </span>
             </Link>
           </div>

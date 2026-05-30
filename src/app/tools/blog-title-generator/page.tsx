@@ -320,7 +320,7 @@ export default function BlogTitleGenerator() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "CaptionLab Blog Title Generator",
+            "name": "Captionhall Blog Title Generator",
             "operatingSystem": "All",
             "applicationCategory": "BusinessApplication",
             "offers": {

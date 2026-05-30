@@ -13,7 +13,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "CaptionLab | Premium Content & Caption Creator Tools",
+  title: "Captionhall | Premium Content & Caption Creator Tools",
   description: "Instantly generate viral Instagram captions, YouTube titles, high-reach hashtags, fancy text styles, and blog title hooks. 100% free, client-side tool library.",
   keywords: ["Instagram caption generator", "YouTube title generator", "Hashtag creator", "Fancy text generator", "Blog title generator", "free social media tools"],
 };

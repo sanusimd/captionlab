@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
   if (!post) return {};
 
   return {
-    title: `${post.title} | CaptionLab Blog`,
+    title: `${post.title} | Captionhall Blog`,
     description: post.description,
     keywords: post.tags,
   };

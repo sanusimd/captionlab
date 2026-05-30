@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 export default function FancyTextGenerator() {
-  const [inputText, setInputText] = useState("CaptionLab Style");
+  const [inputText, setInputText] = useState("Captionhall Style");
   const [outputs, setOutputs] = useState<StyledText[]>([]);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
@@ -168,7 +168,7 @@ export default function FancyTextGenerator() {
               How do Unicode Fonts work?
             </h3>
             <p>
-              Unicode is a computing industry standard designed to consistently encode and represent text across all platforms. The styled characters output by CaptionLab are not standard alphabetic characters; they are mathematical letters located in special mathematical blocks. Because they are base symbol assets, browsers render them exactly as they are without formatting controls.
+              Unicode is a computing industry standard designed to consistently encode and represent text across all platforms. The styled characters output by Captionhall are not standard alphabetic characters; they are mathematical letters located in special mathematical blocks. Because they are base symbol assets, browsers render them exactly as they are without formatting controls.
             </p>
 
             <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 font-heading">
@@ -187,7 +187,7 @@ export default function FancyTextGenerator() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "CaptionLab Fancy Text Generator",
+            "name": "Captionhall Fancy Text Generator",
             "operatingSystem": "All",
             "applicationCategory": "BusinessApplication",
             "offers": {

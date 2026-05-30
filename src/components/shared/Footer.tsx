@@ -36,7 +36,7 @@ export default function Footer() {
                 <Sparkles className="h-4 w-4" />
               </div>
               <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-slate-50">
-                CaptionLab
+                Captionhall
               </span>
             </Link>
             <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
@@ -104,7 +104,7 @@ export default function Footer() {
 
         <div className="mt-12 border-t border-slate-200 dark:border-slate-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-slate-400 dark:text-slate-500">
-            &copy; {currentYear} CaptionLab. All rights reserved. Built client-side for maximum privacy.
+            &copy; {currentYear} Captionhall. All rights reserved. Built client-side for maximum privacy.
           </p>
           <p className="text-xs text-slate-400 dark:text-slate-500 flex items-center gap-1">
             Made with <Heart className="h-3 w-3 text-red-500 fill-current" /> for social media growth.

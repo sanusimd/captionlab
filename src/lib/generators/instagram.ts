@@ -87,7 +87,7 @@ const TONE_DATA: Record<
       "Keep it simple."
     ],
     bodies: [
-      "We designed CaptionLab to be lightweight, fast, and distraction-free. Simply enter your keyword, get your copy, and move on.",
+      "We designed Captionhall to be lightweight, fast, and distraction-free. Simply enter your keyword, get your copy, and move on.",
       "No accounts. No server queues. No friction. Just the tools you need to write copy instantly.",
       "Utility shouldn't be complicated. We focus on clean code and reliable output."
     ],

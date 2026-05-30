@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { BLOG_POSTS } from "@/lib/blogPosts";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://captionlab.com";
+  const baseUrl = "https://captionhall.com";
 
   // Static URL definitions
   const staticUrls = [

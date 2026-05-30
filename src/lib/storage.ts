@@ -24,7 +24,7 @@ export function saveToHistory(item: Omit<HistoryItem, "id" | "timestamp" | "isFa
   if (!isLocalStorageAvailable()) return newItem;
 
   try {
-    const rawHistory = localStorage.getItem("captionlab_history");
+    const rawHistory = localStorage.getItem("captionhall_history");
     const history: HistoryItem[] = rawHistory ? JSON.parse(rawHistory) : [];
     
     // Add to beginning of history list
@@ -33,7 +33,7 @@ export function saveToHistory(item: Omit<HistoryItem, "id" | "timestamp" | "isFa
     // Cap history size to 50 items to keep localStorage light
     const cappedHistory = history.slice(0, 50);
     
-    localStorage.setItem("captionlab_history", JSON.stringify(cappedHistory));
+    localStorage.setItem("captionhall_history", JSON.stringify(cappedHistory));
   } catch (error) {
     console.error("Failed to save to localStorage history:", error);
   }
@@ -45,7 +45,7 @@ export function getHistory(): HistoryItem[] {
   if (!isLocalStorageAvailable()) return [];
 
   try {
-    const rawHistory = localStorage.getItem("captionlab_history");
+    const rawHistory = localStorage.getItem("captionhall_history");
     return rawHistory ? JSON.parse(rawHistory) : [];
   } catch (error) {
     console.error("Failed to read localStorage history:", error);
@@ -57,13 +57,13 @@ export function removeFromHistory(id: string): void {
   if (!isLocalStorageAvailable()) return;
 
   try {
-    const rawHistory = localStorage.getItem("captionlab_history");
+    const rawHistory = localStorage.getItem("captionhall_history");
     if (!rawHistory) return;
     
     const history: HistoryItem[] = JSON.parse(rawHistory);
     const updatedHistory = history.filter((item) => item.id !== id);
     
-    localStorage.setItem("captionlab_history", JSON.stringify(updatedHistory));
+    localStorage.setItem("captionhall_history", JSON.stringify(updatedHistory));
   } catch (error) {
     console.error("Failed to remove item from history:", error);
   }
@@ -74,7 +74,7 @@ export function toggleFavorite(id: string): boolean {
 
   let newState = false;
   try {
-    const rawHistory = localStorage.getItem("captionlab_history");
+    const rawHistory = localStorage.getItem("captionhall_history");
     if (!rawHistory) return false;
     
     const history: HistoryItem[] = JSON.parse(rawHistory);
@@ -86,7 +86,7 @@ export function toggleFavorite(id: string): boolean {
       return item;
     });
     
-    localStorage.setItem("captionlab_history", JSON.stringify(updatedHistory));
+    localStorage.setItem("captionhall_history", JSON.stringify(updatedHistory));
   } catch (error) {
     console.error("Failed to toggle favorite status:", error);
   }

@@ -6,7 +6,7 @@ import { BLOG_POSTS } from "@/lib/blogPosts";
 import { FileText, Calendar, Clock, User } from "lucide-react";
 
 export const metadata = {
-  title: "Content Marketing & Social Media Growth Blog | CaptionLab",
+  title: "Content Marketing & Social Media Growth Blog | Captionhall",
   description: "Learn actionable strategies, hooks formulas, YouTube optimization methods, and marketing hacks to grow your organic reach.",
 };
 
@@ -22,7 +22,7 @@ export default function BlogIndex() {
             Creator Academy
           </span>
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight font-heading">
-            CaptionLab Growth Blog
+            Captionhall Growth Blog
           </h1>
           <p className="mt-3 text-sm sm:text-base text-slate-500 dark:text-slate-400 leading-relaxed">
             Case studies, copywriting guides, algorithm breakdowns, and marketing tips to expand your brand presence.

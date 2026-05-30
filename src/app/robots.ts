@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/dashboard"], // Protect localized history dashboard pages from indexing
     },
-    sitemap: "https://captionlab.com/sitemap.xml",
+    sitemap: "https://captionhall.com/sitemap.xml",
   };
 }

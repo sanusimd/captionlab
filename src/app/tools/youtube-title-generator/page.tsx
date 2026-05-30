@@ -320,7 +320,7 @@ export default function YoutubeTitleGenerator() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "CaptionLab YouTube Title Generator",
+            "name": "Captionhall YouTube Title Generator",
             "operatingSystem": "All",
             "applicationCategory": "BusinessApplication",
             "offers": {

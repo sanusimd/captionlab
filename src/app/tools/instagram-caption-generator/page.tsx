@@ -391,7 +391,7 @@ export default function InstagramCaptionGenerator() {
           </h2>
           <div className="space-y-6 text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-sans">
             <p>
-              In the age of visual content, captions remain a primary driver of retention, search relevance, and audience interaction. While a striking photo or high-tempo Reel catches the user's eye, the caption is where relationships are built and conversions happen. Here is how you can use CaptionLab to maximize your content potential:
+              In the age of visual content, captions remain a primary driver of retention, search relevance, and audience interaction. While a striking photo or high-tempo Reel catches the user's eye, the caption is where relationships are built and conversions happen. Here is how you can use Captionhall to maximize your content potential:
             </p>
             
             <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-50 font-heading">
@@ -427,7 +427,7 @@ export default function InstagramCaptionGenerator() {
                 Is this Instagram Caption Generator really free?
               </h4>
               <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 font-sans">
-                Yes! Every tool on CaptionLab operates 100% client-side in your web browser. There are no credit limitations, no billing systems, and no logins required.
+                Yes! Every tool on Captionhall operates 100% client-side in your web browser. There are no credit limitations, no billing systems, and no logins required.
               </p>
             </div>
 
@@ -436,7 +436,7 @@ export default function InstagramCaptionGenerator() {
                 Does this tool send my descriptions to external servers?
               </h4>
               <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 font-sans">
-                No. CaptionLab values your privacy. The generation logic runs locally using predefined mathematical sentence rules and template structures, meaning your input keywords never leave your machine.
+                No. Captionhall values your privacy. The generation logic runs locally using predefined mathematical sentence rules and template structures, meaning your input keywords never leave your machine.
               </p>
             </div>
           </div>
@@ -450,7 +450,7 @@ export default function InstagramCaptionGenerator() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            "name": "CaptionLab Instagram Caption Generator",
+            "name": "Captionhall Instagram Caption Generator",
             "operatingSystem": "All",
             "applicationCategory": "BusinessApplication",
             "offers": {

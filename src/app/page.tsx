@@ -87,7 +87,7 @@ export default function Home() {
 
   const testimonials = [
     {
-      quote: "CaptionLab has completely changed my Instagram scheduling process. The captions it generates are formatted beautifully without breaking line breaks.",
+      quote: "Captionhall has completely changed my Instagram scheduling process. The captions it generates are formatted beautifully without breaking line breaks.",
       author: "Sarah K.",
       role: "Social Media Specialist",
       handle: "@sarahk_creates"
@@ -160,7 +160,7 @@ export default function Home() {
                   <span className="w-3 h-3 rounded-full bg-green-400 block" />
                 </div>
                 <div className="text-xs text-slate-400 dark:text-slate-500 font-mono">
-                  captionlab.com/tools/instagram-generator
+                  captionhall.com/tools/instagram-generator
                 </div>
                 <div className="w-12" />
               </div>
@@ -193,7 +193,7 @@ export default function Home() {
                     <span className="text-xs font-semibold text-slate-400 uppercase tracking-wide">Generated Results</span>
                     <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900/80 shadow-sm relative group">
                       <div className="text-sm text-slate-700 dark:text-slate-300 font-sans leading-relaxed">
-                        🚨 STOP scrolling! We just launched something huge. CaptionLab is finally here—100% free content tools for creators.
+                        🚨 STOP scrolling! We just launched something huge. Captionhall is finally here—100% free content tools for creators.
                       </div>
                       <div className="mt-3 flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800/80">
                         <div className="flex gap-2">
@@ -286,7 +286,7 @@ export default function Home() {
                 Lightweight Tools Built For Maximum Output
               </h2>
               <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm md:text-base">
-                Why load heavy SaaS workspaces when you just need copy-pasteable social captions and tags? CaptionLab runs right inside your web client. No servers, no signups, no credit limits.
+                Why load heavy SaaS workspaces when you just need copy-pasteable social captions and tags? Captionhall runs right inside your web client. No servers, no signups, no credit limits.
               </p>
             </div>
 
@@ -321,7 +321,7 @@ export default function Home() {
               Loved By Creators & Marketers
             </h2>
             <p className="mt-4 text-base text-slate-600 dark:text-slate-400">
-              See what creators think about building content with CaptionLab.
+              See what creators think about building content with Captionhall.
             </p>
           </div>
 
