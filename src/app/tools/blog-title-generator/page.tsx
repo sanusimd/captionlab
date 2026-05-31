@@ -4,10 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
-import { 
-  generateBlogTitles, 
-  GeneratedBlogTitle 
-} from "@/lib/generators/blogtitle";
+import { GeneratedBlogTitle } from "@/lib/generators/blogtitle";
+import { generateBlogTitlesAction } from "@/app/actions/generate";
 import { 
   saveToHistory, 
   getHistory, 
@@ -35,6 +33,7 @@ export default function BlogTitleGenerator() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationSource, setGenerationSource] = useState<"ai" | "fallback" | null>(null);
 
   useEffect(() => {
     const loadedHistory = getHistory();
@@ -43,26 +42,32 @@ export default function BlogTitleGenerator() {
     setFavoriteIds(favorites);
   }, []);
 
-  const handleGenerate = (e: React.FormEvent) => {
+  const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic.trim()) return;
 
     setIsGenerating(true);
-    setTimeout(() => {
-      const results = generateBlogTitles(topic, { audience, style });
-      setTitles(results);
-      setIsGenerating(false);
+    try {
+      const result = await generateBlogTitlesAction(topic, { audience, style });
+      if (result.success && result.data) {
+        setTitles(result.data);
+        setGenerationSource(result.source);
 
-      if (results.length > 0) {
-        const savedItem = saveToHistory({
-          toolId: "blogtitle",
-          toolName: "Blog Title",
-          input: `${audience} | ${style} | ${topic}`,
-          output: results[0].title
-        });
-        setHistory(prev => [savedItem, ...prev].slice(0, 50));
+        if (result.data.length > 0) {
+          const savedItem = saveToHistory({
+            toolId: "blogtitle",
+            toolName: "Blog Title",
+            input: `${audience} | ${style} | ${topic}`,
+            output: result.data[0].title
+          });
+          setHistory(prev => [savedItem, ...prev].slice(0, 50));
+        }
       }
-    }, 500);
+    } catch (error) {
+      console.error("Failed to generate blog titles:", error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleCopyText = (id: string, text: string) => {
@@ -224,9 +229,21 @@ export default function BlogTitleGenerator() {
                   <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
                     SEO Recommendations
                   </h3>
-                  <span className="text-xs text-violet-500 font-semibold bg-violet-50 dark:bg-violet-950/40 px-2.5 py-1 rounded-full">
-                    5 Formulas Ready
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {generationSource === "ai" ? (
+                      <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full flex items-center gap-1">
+                        <Sparkles className="h-3 w-3" />
+                        AI Generated ⚡
+                      </span>
+                    ) : (
+                      <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2.5 py-1 rounded-full">
+                        Template Fallback 📝
+                      </span>
+                    )}
+                    <span className="text-xs text-violet-500 font-semibold bg-violet-50 dark:bg-violet-950/40 px-2.5 py-1 rounded-full">
+                      5 Formulas Ready
+                    </span>
+                  </div>
                 </div>
 
                 {titles.map((t, idx) => (

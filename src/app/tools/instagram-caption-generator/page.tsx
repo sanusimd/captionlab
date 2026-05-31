@@ -4,10 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
-import { 
-  generateInstagramCaptions, 
-  GeneratedCaption 
-} from "@/lib/generators/instagram";
+import { GeneratedCaption } from "@/lib/generators/instagram";
+import { generateInstagramCaptionsAction } from "@/app/actions/generate";
 import { 
   saveToHistory, 
   getHistory, 
@@ -42,6 +40,7 @@ export default function InstagramCaptionGenerator() {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationSource, setGenerationSource] = useState<"ai" | "fallback" | null>(null);
 
   // Load history on mount
   useEffect(() => {
@@ -53,38 +52,43 @@ export default function InstagramCaptionGenerator() {
     setFavoriteIds(favorites);
   }, []);
 
-  const handleGenerate = (e: React.FormEvent) => {
+  const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic.trim()) return;
 
     setIsGenerating(true);
     
-    // Simple micro-delay to simulate processing and feel premium
-    setTimeout(() => {
-      const results = generateInstagramCaptions(topic, {
+    try {
+      const result = await generateInstagramCaptionsAction(topic, {
         tone,
         length,
         includeEmojis,
         includeCTA
       });
       
-      setCaptions(results);
-      setIsGenerating(false);
+      if (result.success && result.data) {
+        setCaptions(result.data);
+        setGenerationSource(result.source);
 
-      // Save the first result to LocalStorage history
-      if (results.length > 0) {
-        const savedItem = saveToHistory({
-          toolId: "instagram",
-          toolName: "Instagram Caption",
-          input: topic,
-          output: results[0].text,
-          hashtags: results[0].hashtags
-        });
-        
-        // Refresh local history view
-        setHistory(prev => [savedItem, ...prev].slice(0, 50));
+        // Save the first result to LocalStorage history
+        if (result.data.length > 0) {
+          const savedItem = saveToHistory({
+            toolId: "instagram",
+            toolName: "Instagram Caption",
+            input: topic,
+            output: result.data[0].text,
+            hashtags: result.data[0].hashtags
+          });
+          
+          // Refresh local history view
+          setHistory(prev => [savedItem, ...prev].slice(0, 50));
+        }
       }
-    }, 600);
+    } catch (error) {
+      console.error("Failed to generate captions:", error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleCopyText = (id: string, text: string) => {
@@ -287,9 +291,21 @@ export default function InstagramCaptionGenerator() {
                   <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
                     Generated Caption Variations
                   </h3>
-                  <span className="text-xs text-violet-500 font-semibold bg-violet-50 dark:bg-violet-950/40 px-2.5 py-1 rounded-full">
-                    3 Drafts Ready
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {generationSource === "ai" ? (
+                      <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full flex items-center gap-1">
+                        <Sparkles className="h-3 w-3" />
+                        AI Generated ⚡
+                      </span>
+                    ) : (
+                      <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2.5 py-1 rounded-full">
+                        Template Fallback 📝
+                      </span>
+                    )}
+                    <span className="text-xs text-violet-500 font-semibold bg-violet-50 dark:bg-violet-950/40 px-2.5 py-1 rounded-full">
+                      3 Drafts Ready
+                    </span>
+                  </div>
                 </div>
 
                 {captions.map((caption, idx) => (

@@ -4,10 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
-import { 
-  generateHashtags, 
-  GeneratedHashtags 
-} from "@/lib/generators/hashtag";
+import { GeneratedHashtags } from "@/lib/generators/hashtag";
+import { generateHashtagsAction } from "@/app/actions/generate";
 import { 
   saveToHistory, 
   getHistory, 
@@ -34,32 +32,39 @@ export default function HashtagGenerator() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [generationSource, setGenerationSource] = useState<"ai" | "fallback" | null>(null);
 
   useEffect(() => {
     setHistory(getHistory());
   }, []);
 
-  const handleGenerate = (e: React.FormEvent) => {
+  const handleGenerate = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!topic.trim()) return;
 
     setIsGenerating(true);
-    setTimeout(() => {
-      const results = generateHashtags(topic, { count, strategy });
-      setHashtags(results);
-      setIsGenerating(false);
+    try {
+      const result = await generateHashtagsAction(topic, { count, strategy });
+      if (result.success && result.data) {
+        setHashtags(result.data);
+        setGenerationSource(result.source);
 
-      if (results.tags.length > 0) {
-        const fullOutput = results.tags.map(t => `#${t}`).join(" ");
-        const savedItem = saveToHistory({
-          toolId: "hashtag",
-          toolName: "Hashtag List",
-          input: `${count} tags | ${strategy} | ${topic}`,
-          output: fullOutput
-        });
-        setHistory(prev => [savedItem, ...prev].slice(0, 50));
+        if (result.data.tags.length > 0) {
+          const fullOutput = result.data.tags.map(t => `#${t}`).join(" ");
+          const savedItem = saveToHistory({
+            toolId: "hashtag",
+            toolName: "Hashtag List",
+            input: `${count} tags | ${strategy} | ${topic}`,
+            output: fullOutput
+          });
+          setHistory(prev => [savedItem, ...prev].slice(0, 50));
+        }
       }
-    }, 500);
+    } catch (error) {
+      console.error("Failed to generate hashtags:", error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const handleCopyAll = (id: string, tags: string[]) => {
@@ -195,6 +200,23 @@ export default function HashtagGenerator() {
               </div>
             ) : (
               <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">
+                    Generated Hashtags
+                  </h3>
+                  <div className="flex items-center gap-2">
+                    {generationSource === "ai" ? (
+                      <span className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-full flex items-center gap-1">
+                        <Sparkles className="h-3 w-3" />
+                        AI Generated ⚡
+                      </span>
+                    ) : (
+                      <span className="text-xs text-amber-600 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2.5 py-1 rounded-full">
+                        Template Fallback 📝
+                      </span>
+                    )}
+                  </div>
+                </div>
                 {/* Total copy block */}
                 <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm space-y-4">
                   <div className="flex items-center justify-between">
