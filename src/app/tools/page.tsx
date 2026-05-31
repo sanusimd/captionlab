@@ -38,6 +38,24 @@ export default function ToolsIndex() {
       badge: "CTR Boost"
     },
     {
+      name: "YouTube Tag Generator",
+      desc: "Generate search-optimized video tags and keyword clusters to rank higher in YouTube search.",
+      icon: Youtube,
+      href: "/tools/youtube-tag-generator",
+      color: "from-rose-500 to-red-500",
+      tags: ["youtube", "tags", "keywords", "seo", "search"],
+      badge: "SEO Tags"
+    },
+    {
+      name: "YouTube Description Generator",
+      desc: "Draft engaging, formatted video descriptions containing links, summaries, and timestamp structures.",
+      icon: Youtube,
+      href: "/tools/youtube-description-generator",
+      color: "from-orange-500 to-red-600",
+      tags: ["youtube", "description", "chapters", "seo", "copywriting"],
+      badge: "SEO Outline"
+    },
+    {
       name: "Hashtag Generator",
       desc: "Find low-competition and high-reach hashtags arranged in optimal copy-paste density lists.",
       icon: Hash,

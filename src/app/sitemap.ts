@@ -10,6 +10,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools",
     "/tools/instagram-caption-generator",
     "/tools/youtube-title-generator",
+    "/tools/youtube-tag-generator",
+    "/tools/youtube-description-generator",
     "/tools/hashtag-generator",
     "/tools/fancy-text-generator",
     "/tools/blog-title-generator",

@@ -72,6 +72,18 @@ export default function Dashboard() {
             <Youtube className={iconClasses} />
           </div>
         );
+      case "youtubetag":
+        return (
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-rose-500 shadow-sm shadow-rose-500/10">
+            <Youtube className={iconClasses} />
+          </div>
+        );
+      case "youtubedesc":
+        return (
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500 shadow-sm shadow-orange-500/10">
+            <Youtube className={iconClasses} />
+          </div>
+        );
       case "hashtag":
         return (
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-500 shadow-sm shadow-blue-500/10">
@@ -175,11 +187,25 @@ export default function Dashboard() {
                   <span>Instagram Caption Gen</span>
                   <span className="text-[10px] bg-slate-100 dark:bg-slate-850 px-2 py-0.5 rounded text-slate-500">Launch</span>
                 </Link>
-                <Link
+                 <Link
                   href="/tools/youtube-title-generator"
                   className="w-full flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-violet-300 dark:hover:border-violet-850 transition-all text-xs font-semibold text-slate-700 dark:text-slate-200"
                 >
                   <span>YouTube Title Gen</span>
+                  <span className="text-[10px] bg-slate-100 dark:bg-slate-850 px-2 py-0.5 rounded text-slate-500">Launch</span>
+                </Link>
+                <Link
+                  href="/tools/youtube-tag-generator"
+                  className="w-full flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-violet-300 dark:hover:border-violet-850 transition-all text-xs font-semibold text-slate-700 dark:text-slate-200"
+                >
+                  <span>YouTube Tag Gen</span>
+                  <span className="text-[10px] bg-slate-100 dark:bg-slate-850 px-2 py-0.5 rounded text-slate-500">Launch</span>
+                </Link>
+                <Link
+                  href="/tools/youtube-description-generator"
+                  className="w-full flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800 hover:border-violet-300 dark:hover:border-violet-850 transition-all text-xs font-semibold text-slate-700 dark:text-slate-200"
+                >
+                  <span>YouTube Desc Gen</span>
                   <span className="text-[10px] bg-slate-100 dark:bg-slate-850 px-2 py-0.5 rounded text-slate-500">Launch</span>
                 </Link>
                 <Link

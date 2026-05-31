@@ -10,6 +10,8 @@ import { generateInstagramCaptions } from "@/lib/generators/instagram";
 import { generateYoutubeTitles } from "@/lib/generators/youtube";
 import { generateHashtags } from "@/lib/generators/hashtag";
 import { generateBlogTitles } from "@/lib/generators/blogtitle";
+import { generateYoutubeTags } from "@/lib/generators/youtube-tag";
+import { generateYoutubeDescription } from "@/lib/generators/youtube-description";
 
 // Choose AI engine based on available keys, prioritizing Anthropic Claude
 function getLanguageModel() {
@@ -277,6 +279,123 @@ export async function generateBlogTitlesAction(
   } catch (error) {
     console.error("AI Generation failed, falling back to templates:", error);
     const results = generateBlogTitles(topic, options);
+    return {
+      success: true,
+      source: "fallback" as const,
+      data: results,
+    };
+  }
+}
+
+// -------------------------------------------------------------
+// 5. YouTube Tag Generator Action
+// -------------------------------------------------------------
+const youtubeTagOptionsSchema = z.object({
+  category: z.string(),
+  count: z.number(),
+});
+
+export async function generateYoutubeTagsAction(
+  topic: string,
+  options: z.infer<typeof youtubeTagOptionsSchema>
+) {
+  const model = getLanguageModel();
+
+  if (!model) {
+    const results = generateYoutubeTags(topic, options);
+    return {
+      success: true,
+      source: "fallback" as const,
+      data: results,
+    };
+  }
+
+  try {
+    const prompt = `Generate exactly ${options.count} highly relevant search-optimized YouTube tags for the video topic: "${topic}".
+    
+    Category: ${options.category}
+    
+    Return them as a flat array of strings. Do not include the '#' symbol. Keep them under 30 characters each.`;
+
+    const { object } = await generateObject({
+      model,
+      schema: z.object({
+        tags: z.array(z.string().describe("A relevant YouTube search tag without #.")),
+      }),
+      prompt,
+    });
+
+    return {
+      success: true,
+      source: "ai" as const,
+      data: object.tags.slice(0, options.count),
+    };
+  } catch (error) {
+    console.error("AI Tag Generation failed, falling back to templates:", error);
+    const results = generateYoutubeTags(topic, options);
+    return {
+      success: true,
+      source: "fallback" as const,
+      data: results,
+    };
+  }
+}
+
+// -------------------------------------------------------------
+// 6. YouTube Description Generator Action
+// -------------------------------------------------------------
+const youtubeDescriptionOptionsSchema = z.object({
+  title: z.string(),
+  tone: z.string(),
+  includeTimestamps: z.boolean(),
+  ctaLink: z.string(),
+});
+
+export async function generateYoutubeDescriptionsAction(
+  topic: string,
+  options: z.infer<typeof youtubeDescriptionOptionsSchema>
+) {
+  const model = getLanguageModel();
+
+  if (!model) {
+    const results = generateYoutubeDescription(topic, options);
+    return {
+      success: true,
+      source: "fallback" as const,
+      data: results,
+    };
+  }
+
+  try {
+    const prompt = `Write an engaging, SEO-optimized YouTube video description for the video: "${options.title}" about: "${topic}".
+    
+    Tone of voice: ${options.tone}
+    Call-to-Action Link: ${options.ctaLink ? options.ctaLink : "None provided"}
+    Include timestamp outlines: ${options.includeTimestamps ? "Yes" : "No"}
+    
+    The description should include:
+    1. A strong initial hook paragraph (first 2 lines are key for search snippets).
+    2. A structured video outline detailing what the viewer will learn.
+    3. Proper call-to-action placement for links.
+    4. If timestamps are selected, provide a realistic timeline block starting with 0:00 (e.g. 0:00 - Intro, 1:30 - Core Concept, etc.).
+    5. Clean social links spacing and 3 relevant search tags at the very bottom.`;
+
+    const { object } = await generateObject({
+      model,
+      schema: z.object({
+        description: z.string().describe("The full structured description copy formatted with newlines."),
+      }),
+      prompt,
+    });
+
+    return {
+      success: true,
+      source: "ai" as const,
+      data: object.description,
+    };
+  } catch (error) {
+    console.error("AI Description Generation failed, falling back to templates:", error);
+    const results = generateYoutubeDescription(topic, options);
     return {
       success: true,
       source: "fallback" as const,

@@ -8,6 +8,8 @@ export default function Footer() {
   const toolLinks = [
     { name: "Instagram Caption Gen", href: "/tools/instagram-caption-generator" },
     { name: "YouTube Title Gen", href: "/tools/youtube-title-generator" },
+    { name: "YouTube Tag Gen", href: "/tools/youtube-tag-generator" },
+    { name: "YouTube Description Gen", href: "/tools/youtube-description-generator" },
     { name: "Hashtag Generator", href: "/tools/hashtag-generator" },
     { name: "Fancy Text Generator", href: "/tools/fancy-text-generator" },
     { name: "Blog Title Generator", href: "/tools/blog-title-generator" },

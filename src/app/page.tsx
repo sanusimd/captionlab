@@ -37,6 +37,22 @@ export default function Home() {
       badge: "CTR Boost"
     },
     {
+      name: "YouTube Tag Generator",
+      desc: "Generate search-optimized video tags and keyword clusters to rank higher in YouTube search.",
+      icon: Youtube,
+      slug: "youtube-tag-generator",
+      color: "from-rose-500 to-red-500",
+      badge: "SEO Tags"
+    },
+    {
+      name: "YouTube Description Generator",
+      desc: "Draft engaging, formatted video descriptions containing links, summaries, and timestamp structures.",
+      icon: Youtube,
+      slug: "youtube-description-generator",
+      color: "from-orange-500 to-red-600",
+      badge: "SEO Outline"
+    },
+    {
       name: "Hashtag Generator",
       desc: "Find low-competition and high-reach hashtags arranged in optimal copy-paste density lists.",
       icon: Hash,
