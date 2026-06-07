@@ -15,6 +15,7 @@ import { generateYoutubeDescription } from "@/lib/generators/youtube-description
 
 // Choose AI engine based on available keys, prioritizing Anthropic Claude
 function getLanguageModel() {
+  console.log("Checking API Keys. ANTHROPIC_API_KEY present:", !!process.env.ANTHROPIC_API_KEY, "OPENAI_API_KEY present:", !!process.env.OPENAI_API_KEY);
   if (process.env.ANTHROPIC_API_KEY) {
     return anthropic("claude-3-5-haiku-latest");
   } else if (process.env.OPENAI_API_KEY) {
