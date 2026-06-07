@@ -14,10 +14,68 @@ import { generateYoutubeTags } from "@/lib/generators/youtube-tag";
 import { generateYoutubeDescription } from "@/lib/generators/youtube-description";
 
 // Choose AI engine based on available keys, prioritizing Anthropic Claude
-function getLanguageModel() {
+let cachedAnthropicModel: string | null = null;
+
+async function getLanguageModel() {
   console.log("Checking API Keys. ANTHROPIC_API_KEY present:", !!process.env.ANTHROPIC_API_KEY, "OPENAI_API_KEY present:", !!process.env.OPENAI_API_KEY);
   if (process.env.ANTHROPIC_API_KEY) {
-    return anthropic("claude-3-haiku-20240307");
+    if (cachedAnthropicModel) {
+      console.log("Using cached Anthropic model:", cachedAnthropicModel);
+      return anthropic(cachedAnthropicModel);
+    }
+
+    const preferences = [
+      "claude-3-5-sonnet-20241022",
+      "claude-3-5-sonnet-latest",
+      "claude-3-5-sonnet-20240620",
+      "claude-3-5-haiku-20241022",
+      "claude-3-haiku-20240307",
+    ];
+
+    try {
+      console.log("Querying Anthropic models list to find available models for this API key...");
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 4000);
+
+      const res = await fetch("https://api.anthropic.com/v1/models", {
+        headers: {
+          "x-api-key": process.env.ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01",
+        },
+        signal: controller.signal,
+      });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        const availableModels: string[] = data.data?.map((m: any) => m.id) || [];
+        console.log("Anthropic API returned available models list:", availableModels);
+        
+        for (const pref of preferences) {
+          if (availableModels.includes(pref)) {
+            cachedAnthropicModel = pref;
+            console.log(`Matched preferred Anthropic model: ${pref}`);
+            break;
+          }
+        }
+
+        if (!cachedAnthropicModel && availableModels.length > 0) {
+          cachedAnthropicModel = availableModels[0];
+          console.log(`No preferred model found in API response. Defaulting to first available model: ${cachedAnthropicModel}`);
+        }
+      } else {
+        console.error("Failed to fetch Anthropic models. Status:", res.status, "Body:", await res.text());
+      }
+    } catch (err) {
+      console.error("Error querying Anthropic models API (using fallback default):", err);
+    }
+
+    if (!cachedAnthropicModel) {
+      cachedAnthropicModel = "claude-3-5-sonnet-20241022";
+      console.log(`Defaulting to standard model: ${cachedAnthropicModel}`);
+    }
+
+    return anthropic(cachedAnthropicModel);
   } else if (process.env.OPENAI_API_KEY) {
     return openai("gpt-4o-mini");
   }
@@ -38,7 +96,7 @@ export async function generateInstagramCaptionsAction(
   topic: string,
   options: z.infer<typeof instagramOptionsSchema>
 ) {
-  const model = getLanguageModel();
+  const model = await getLanguageModel();
 
   if (!model) {
     // Fall back to template generator
@@ -107,7 +165,7 @@ export async function generateYoutubeTitlesAction(
   topic: string,
   options: z.infer<typeof youtubeOptionsSchema>
 ) {
-  const model = getLanguageModel();
+  const model = await getLanguageModel();
 
   if (!model) {
     const results = generateYoutubeTitles(topic, options);
@@ -171,7 +229,7 @@ export async function generateHashtagsAction(
   topic: string,
   options: z.infer<typeof hashtagOptionsSchema>
 ) {
-  const model = getLanguageModel();
+  const model = await getLanguageModel();
 
   if (!model) {
     const results = generateHashtags(topic, options);
@@ -236,7 +294,7 @@ export async function generateBlogTitlesAction(
   topic: string,
   options: z.infer<typeof blogOptionsSchema>
 ) {
-  const model = getLanguageModel();
+  const model = await getLanguageModel();
 
   if (!model) {
     const results = generateBlogTitles(topic, options);
@@ -300,7 +358,7 @@ export async function generateYoutubeTagsAction(
   topic: string,
   options: z.infer<typeof youtubeTagOptionsSchema>
 ) {
-  const model = getLanguageModel();
+  const model = await getLanguageModel();
 
   if (!model) {
     const results = generateYoutubeTags(topic, options);
@@ -356,7 +414,7 @@ export async function generateYoutubeDescriptionsAction(
   topic: string,
   options: z.infer<typeof youtubeDescriptionOptionsSchema>
 ) {
-  const model = getLanguageModel();
+  const model = await getLanguageModel();
 
   if (!model) {
     const results = generateYoutubeDescription(topic, options);
