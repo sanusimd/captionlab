@@ -17,7 +17,7 @@ import { generateYoutubeDescription } from "@/lib/generators/youtube-description
 function getLanguageModel() {
   console.log("Checking API Keys. ANTHROPIC_API_KEY present:", !!process.env.ANTHROPIC_API_KEY, "OPENAI_API_KEY present:", !!process.env.OPENAI_API_KEY);
   if (process.env.ANTHROPIC_API_KEY) {
-    return anthropic("claude-3-5-haiku-latest");
+    return anthropic("claude-3-5-haiku-20241022");
   } else if (process.env.OPENAI_API_KEY) {
     return openai("gpt-4o-mini");
   }
