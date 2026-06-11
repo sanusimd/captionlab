@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import { BLOG_POSTS } from "@/lib/blogPosts";
+import { fetchWordpressPosts } from "@/lib/wordpress";
 import { FileText, Calendar, Clock, User } from "lucide-react";
 
 export const metadata = {
@@ -10,7 +11,10 @@ export const metadata = {
   description: "Learn actionable strategies, hooks formulas, YouTube optimization methods, and marketing hacks to grow your organic reach.",
 };
 
-export default function BlogIndex() {
+export default async function BlogIndex() {
+  const wpPosts = await fetchWordpressPosts();
+  const posts = wpPosts.length > 0 ? wpPosts : BLOG_POSTS;
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-50 transition-colors duration-200">
       <Navbar />
@@ -31,7 +35,7 @@ export default function BlogIndex() {
 
         {/* Blog Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {BLOG_POSTS.map((post) => (
+          {posts.map((post) => (
             <article
               key={post.slug}
               className="group rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-6 shadow-sm hover:shadow-md hover:border-violet-300 dark:hover:border-violet-850 transition-all duration-300 flex flex-col justify-between"

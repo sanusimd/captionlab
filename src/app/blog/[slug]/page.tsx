@@ -4,6 +4,7 @@ import Link from "next/link";
 import Navbar from "@/components/shared/Navbar";
 import Footer from "@/components/shared/Footer";
 import { BLOG_POSTS } from "@/lib/blogPosts";
+import { fetchWordpressPostBySlug } from "@/lib/wordpress";
 import { Calendar, Clock, User, ArrowLeft, Sparkles, ChevronRight } from "lucide-react";
 
 interface Props {
@@ -18,7 +19,10 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  let post = BLOG_POSTS.find((p) => p.slug === slug);
+  if (!post) {
+    post = (await fetchWordpressPostBySlug(slug)) || undefined;
+  }
   if (!post) return {};
 
   return {
@@ -30,7 +34,14 @@ export async function generateMetadata({ params }: Props) {
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = BLOG_POSTS.find((p) => p.slug === slug);
+  let post = BLOG_POSTS.find((p) => p.slug === slug);
+
+  if (!post) {
+    const wpPost = await fetchWordpressPostBySlug(slug);
+    if (wpPost) {
+      post = wpPost;
+    }
+  }
 
   if (!post) {
     notFound();
